@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+
+    <style>
+        /* Estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px; 
+            margin: 20px auto; 
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            border-radius: 5px; 
+        }
+        header {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px; 
+            text-align: center; 
+        }
+        section, footer {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;    
+            background-color: #f0f0f0;        
+        }
+
+        h1, h2 {
+            color: #333;
+            border-bottom: 2px solid #ccc; 
+            padding-bottom: 10px; 
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+        form {
+            text-align: left; /* alinear los elementos del formulario */
+        }
+        form label {
+            font-size: 16px; /* Tamaño de fuente */
+            display: block; /* Mostrar cada etiqueta en una nueva línea */
+            margin-bottom: 5px; /* Espacio entre etiquetas */
+        }
+        form input[type="text"],
+        form select {
+            width: calc(100% - 20px); /* Ancho ajustado */
+            padding: 10px; /* Ajustar el padding para aumentar el tamaño */
+            font-size: 18px; /* Tamaño de fuente */
+            margin-bottom: 10px; /* Espacio entre los campos */
+        }
+        form select {
+            width: fit-content; /* Ajustar el ancho al contenido */
+            padding: 5px; /* Ajustar el padding para aumentar el tamaño */
+            font-size: 16px; /* Tamaño de fuente */
+        }
+        form input[type="submit"].update-btn {
+            display: inline-block; /* Mostrar botones en línea */
+            padding: 6px 12px; /* Espaciado interno ajustado para hacer los botones un poco más pequeños */
+            cursor: pointer;
+            font-size: 14px; /* Tamaño de fuente */
+            margin-top: 10px; /* Espacio entre los botones */
+        }
+        form input[type="submit"].delete-btn {
+            display: inline-block; /* Mostrar botones en línea */
+            padding: 6px 12px; /* Espaciado interno */
+            cursor: pointer;
+            font-size: 14px; /* Tamaño de fuente */
+            margin-top: 10px; /* Espacio entre los botones */
+        }
+        form input[type="submit"].save-btn {
+            display: block; /* Convertir a bloque para centrar */
+            margin: 0 auto; /* Centrar horizontalmente */
+            padding: 10px 20px; /* Ajustar el padding para hacer el botón más grande */
+            font-size: 16px; /* Tamaño de fuente más grande */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lista de Tareas</h1>            
+        </header>
+        <section>
+            <h2>Agregar una Tarea</h2>
+            <form method="POST">
+                <!-- Tu formulario -->
+                <label for="tarea">Tarea:</label><br>
+                <input type="text" id="tarea" name="tarea" required><br>            
+                <label for="estado">Estado:</label><br>
+                <select id="estado" name="estado" required>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="Completada">Completada</option>
+                </select><br>
+                <input type="submit" value="Guardar" class="save-btn">            
+            </form>
+        </section>
+        <section>
+   
+            <h2>Gestionar Tareas</h2>
+                <ul>
+                    {% for registro in registros %}
+                    <li>
+                    <strong>Tarea:</strong> {{ registro.tarea }}<br>
+                    <strong>Estado:</strong> {{ registro.estado }}<br>
+                    <form method="POST" action="{{ url_for('actualizar_estado', tarea=registro['tarea']) }}">
+                        <label for="nuevo_estado">Nuevo Estado:</label>
+                        <select id="nuevo_estado" name="estado" required>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="Completada">Completada</option>
+                        </select>
+                        <input type="submit" value="Actualizar Estado" class="update-btn">
+                    </form>
+                    <form method="POST" action="{{ url_for('eliminar_tarea', tarea=registro['tarea']) }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" value="Eliminar" class="delete-btn">
+                    </form>
+                    <br>
+                    </li>
+                    {% if not loop.last %}
+                        <hr> <!-- Línea divisoria -->
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </section>
+
+        <section>
+        <h2>Tareas Pendientes</h2>
+        <ul>
+        {% for registro in registros %}
+            {% if registro['estado'] == 'pendiente' %}
+                <li>
+                    <strong>Tarea:</strong> {{ registro['tarea'] }}<br>
+                    <strong>Estado:</strong> {{ registro['estado'] }}<br>
+                    <br>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        </section>      
+    </div>
+</body>
+</html>
