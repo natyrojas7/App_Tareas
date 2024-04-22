@@ -25,7 +25,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 302)  
 
     def test_eliminar_tarea(self):
-        # Prueba de eliminación de una tarea
+        # Prueba de eliminación de una tarea ##
         registros = [{'tarea': 'Hacer la compra', 'estado': 'pendiente'}]
         app.registros = registros 
         response = self.app.post('/eliminar_tarea/Hacer%20la%20compra')
