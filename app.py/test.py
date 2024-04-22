@@ -20,14 +20,14 @@ class TestApp(unittest.TestCase):
     def test_actualizar_estado(self):
         # Prueba de actualización de estado de una tarea
         registros = [{'tarea': 'Hacer la compra', 'estado': 'pendiente'}]
-        app.registros = registros  # Configura registros directamente en la aplicación
+        app.registros = registros 
         response = self.app.post('/actualizar_estado/Hacer%20la%20compra', data={'estado': 'Completada'})
         self.assertEqual(response.status_code, 302)  
 
     def test_eliminar_tarea(self):
         # Prueba de eliminación de una tarea
         registros = [{'tarea': 'Hacer la compra', 'estado': 'pendiente'}]
-        app.registros = registros  # Configura registros directamente en la aplicación
+        app.registros = registros 
         response = self.app.post('/eliminar_tarea/Hacer%20la%20compra')
         self.assertEqual(response.status_code, 302) 
 if __name__ == '__main__':

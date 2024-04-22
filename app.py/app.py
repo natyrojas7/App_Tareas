@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request
-
+###libreria web para python para poder redireccionar al index en el navegador#######
 app = Flask(__name__)
 
 registros = []
