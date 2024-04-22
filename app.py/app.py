@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request
+import os
 ###libreria web para python para poder redireccionar al index en el navegador#######
 app = Flask(__name__)
 
@@ -34,5 +35,6 @@ def eliminar_tarea(tarea):
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
+
 
