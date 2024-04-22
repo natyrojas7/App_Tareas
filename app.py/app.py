@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, send_from_directory
+
 import os
 ###libreria web para python para poder redireccionar al index en el navegador#######
 app = Flask(__name__)
@@ -33,6 +34,10 @@ def eliminar_tarea(tarea):
             registros.remove(registro)
             break
     return redirect(url_for('index'))
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
