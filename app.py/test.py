@@ -2,7 +2,7 @@ import unittest
 from app import app
 
 class TestApp(unittest.TestCase):
-
+#####pruebas de las tareas para los metodos get y post de la app #######
     def setUp(self):
         self.app = app.test_client()
         self.app.testing = True
